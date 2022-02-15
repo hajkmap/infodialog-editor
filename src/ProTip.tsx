@@ -1,18 +1,20 @@
-import * as React from 'react';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
+import * as React from "react";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
 import { InfoDialogOptions } from "./types/types";
 
-type AppProps = {
-  options?: InfoDialogOptions[];
-}
+type Props = {
+  options: InfoDialogOptions[];
+};
 
-export default function ProTip({ options }: AppProps) {
-  console.log('options: ',);
-  return (
+export default function ProTip({ options }: Props) {
+  return Array.isArray(options) ? (
     <>
-      {options?.map(o => <Box>{o.name}</Box>)}
+      {options?.map((o, i) => (
+        <Box key={i}>{o.name}</Box>
+      ))}
     </>
-  )
-
+  ) : (
+    <Typography variant="caption">No config yet. Add?</Typography>
+  );
 }
