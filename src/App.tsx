@@ -36,9 +36,6 @@ export default function App() {
         </Typography>
       </Box>
       {maps.length > 0 && <MapSelector maps={maps} />}
-      <Box>
-        <Button>Save</Button>
-      </Box>
     </Container>
   );
 }

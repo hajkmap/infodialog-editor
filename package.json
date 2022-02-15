@@ -9,6 +9,7 @@
     "@mui/material": "latest",
     "@types/react": "latest",
     "@types/react-dom": "latest",
+    "@uiw/react-md-editor": "^3.9.4",
     "react": "latest",
     "react-dom": "latest",
     "react-scripts": "latest",

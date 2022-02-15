@@ -6,7 +6,7 @@ import MenuItem from "@mui/material/MenuItem";
 import CircularProgress from "@mui/material/CircularProgress";
 
 import useMapConfig from "./hooks/useMapConfig";
-import ProTip from "./ProTip";
+import InstanceSelector from "./InstanceSelector";
 import { InfoDialogOptions } from "./types/types";
 
 type Props = {
@@ -58,7 +58,7 @@ export default function MapSelector({ maps }: Props) {
         ))}
       </Select>
       {loading && <CircularProgress />}
-      <ProTip options={infoDialogOptions} />
+      <InstanceSelector options={infoDialogOptions} mapName={mapName} />
     </>
   ) : null;
 }
