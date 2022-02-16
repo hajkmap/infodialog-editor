@@ -12,33 +12,32 @@ import { InfoDialogOptions } from "./types/types";
 
 type Props = {
   instanceOptions: InfoDialogOptions;
-  handleSave: Function;
+  handleInstanceOptionsChange: (instanceOptions: InfoDialogOptions) => void;
 };
 
 export default function InstanceSelector({
   instanceOptions,
-  handleSave,
+  handleInstanceOptionsChange,
 }: Props) {
   if (instanceOptions === undefined) return null;
 
+  const [text, setText] = useState(instanceOptions.text);
+
+  // When new instance options arrive…
   useEffect(() => {
+    // …let's set the Editor's text
     setText(instanceOptions.text);
   }, [instanceOptions]);
 
-  const [text, setText] = useState<string | undefined>(instanceOptions.text);
-
-  const handleClick = () => {
-    instanceOptions.text = text || "";
-    console.log("Saving:", instanceOptions);
-    handleSave(instanceOptions);
+  const handleChange = (newText: string | undefined): void => {
+    setText(newText || "");
+    instanceOptions.text = newText || "";
+    handleInstanceOptionsChange(instanceOptions);
   };
 
   return (
     <>
-      <MDEditor value={text} onChange={setText} />
-      <Box>
-        <Button onClick={handleClick}>Save</Button>
-      </Box>
+      <MDEditor value={text} onChange={handleChange} />
     </>
   );
 }

@@ -12,7 +12,7 @@ export interface InfoDialogOptions {
   icon: string;
   name: string;
   showOnlyOnce: boolean;
-  target: string;
+  target: "left" | "right" | "toolbar" | "control";
   text: string;
   title: string;
   useLegacyNonMarkdownRenderer: boolean;
