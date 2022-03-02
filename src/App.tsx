@@ -6,9 +6,11 @@ import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 
 import MapSelector from "./MapSelector";
+import { Grid } from "@mui/material";
 
 export default function App() {
   const [maps, setMaps] = useState<string[]>([]);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     const fetchMaps = async () => {
@@ -18,9 +20,10 @@ export default function App() {
         );
         const maps: string[] = await response.json();
         setMaps(maps);
-      } catch (error) {
-        if (error) {
-          console.log("error: ", error);
+      } catch (e) {
+        console.log("error: ", e);
+        if (e instanceof Error) {
+          setError(e.message);
         }
       }
     };
@@ -28,14 +31,34 @@ export default function App() {
     fetchMaps();
   }, []);
 
+  const ErrorMessage = () => {
+    return (
+      <>
+        <Typography>Couldn't load configuration:</Typography>
+        <Typography sx={{ fontFamily: "monospace" }}>{error}</Typography>
+      </>
+    );
+  };
+
   return (
-    <Container>
-      <Box sx={{ my: 4 }}>
+    <Grid container spacing={2}>
+      <Grid item xs={12}>
         <Typography variant="h4" component="h1" gutterBottom>
           InfoDialog MarkDown editor
         </Typography>
-      </Box>
-      {maps.length > 0 && <MapSelector maps={maps} />}
-    </Container>
+      </Grid>
+
+      {error.length > 0 && (
+        <Grid item xs={12}>
+          <ErrorMessage />
+        </Grid>
+      )}
+
+      {maps.length > 0 && (
+        <Grid item xs={12}>
+          <MapSelector maps={maps} />
+        </Grid>
+      )}
+    </Grid>
   );
 }

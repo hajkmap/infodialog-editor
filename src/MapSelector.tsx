@@ -5,6 +5,7 @@ import Select, { SelectChangeEvent } from "@mui/material/Select";
 import {
   CircularProgress,
   FormControl,
+  Grid,
   InputLabel,
   MenuItem,
   Typography,
@@ -55,35 +56,46 @@ export default function MapSelector({ maps }: Props) {
   };
 
   return maps.length > 0 ? (
-    <>
-      {pendingChanges && (
-        <Typography variant="caption">
-          There are local changes. Please rembember to click on the save button
-          to send them to the server.
-        </Typography>
+    <Grid container spacing={2}>
+      {loading && (
+        <Grid item xs={12}>
+          <CircularProgress />
+        </Grid>
       )}
-      {loading && <CircularProgress />}
-      <FormControl sx={{ minWidth: 200 }}>
-        <InputLabel id="map-select-label">Map config</InputLabel>
-        <Select
-          labelId="map-select-label"
-          label="Map config"
-          value={mapName}
-          onChange={handleMapChange}
-        >
-          {maps.map((m: string, i) => (
-            <MenuItem key={i} value={m}>
-              {m}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
-      <InstanceSelector
-        options={infoDialogOptions}
-        mapName={mapName}
-        pendingChanges={pendingChanges}
-        setPendingChanges={setPendingChanges}
-      />
-    </>
+      {pendingChanges && (
+        <Grid item xs={12}>
+          <Typography variant="caption" sx={{ display: "block" }}>
+            There are local changes. Please rembember to click on the save
+            button to send them to the server.
+          </Typography>
+        </Grid>
+      )}
+
+      <Grid item xs={12}>
+        <FormControl sx={{ minWidth: 200, display: "flex" }}>
+          <InputLabel id="map-select-label">Map config</InputLabel>
+          <Select
+            labelId="map-select-label"
+            label="Map config"
+            value={mapName}
+            onChange={handleMapChange}
+          >
+            {maps.map((m: string, i) => (
+              <MenuItem key={i} value={m}>
+                {m}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+      </Grid>
+      <Grid item xs={12}>
+        <InstanceSelector
+          options={infoDialogOptions}
+          mapName={mapName}
+          pendingChanges={pendingChanges}
+          setPendingChanges={setPendingChanges}
+        />
+      </Grid>
+    </Grid>
   ) : null;
 }

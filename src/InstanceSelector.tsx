@@ -5,6 +5,7 @@ import Select, { SelectChangeEvent } from "@mui/material/Select";
 import {
   Button,
   CircularProgress,
+  Grid,
   FormControl,
   InputLabel,
   MenuItem,
@@ -17,6 +18,8 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
+
+import { useSnackbar } from "notistack";
 
 import { InfoDialogOptions } from "./types/types";
 import InstanceEditor from "./InstanceEditor";
@@ -34,6 +37,8 @@ export default function InstanceSelector({
   pendingChanges,
   setPendingChanges,
 }: Props) {
+  const { enqueueSnackbar } = useSnackbar();
+
   const [selectedInstance, setSelectedInstance] = useState<string>("");
   const [dialogOpen, setDialogOpen] = useState(false);
   const [instanceName, setInstanceName] = useState("");
@@ -54,7 +59,8 @@ export default function InstanceSelector({
     setPendingChanges(true);
   };
 
-  const sendOptionsToServer = () => {
+  const sendOptionsToServer = async () => {
+    console.log("sending options: ", options);
     const requestOptions = {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
@@ -62,10 +68,19 @@ export default function InstanceSelector({
     };
 
     const url = `http://localhost:3002/api/v1/settings/update/${mapName}/infodialog`;
-    fetch(url, requestOptions).then((response) => {
-      setPendingChanges(false);
-      console.log(response);
-    });
+
+    try {
+      const response = await fetch(url, requestOptions);
+      if ([201, 204].includes(response.status)) {
+        enqueueSnackbar("Changes saved!", { variant: "success" });
+        setPendingChanges(false);
+      } else {
+        enqueueSnackbar("Couldn't save changes", { variant: "error" });
+      }
+    } catch (error) {
+      console.error(error);
+      enqueueSnackbar("Couldn't save changes", { variant: "error" });
+    }
   };
 
   const handleAddNewInstance = () => {
@@ -114,54 +129,66 @@ export default function InstanceSelector({
 
   return (
     <>
-      {options.length > 0 ? (
-        <>
-          <FormControl sx={{ minWidth: 200 }}>
-            <InputLabel id="infodialog-select-label">
-              InfoDialog instance
-            </InputLabel>
-            <Select
-              label="InfoDialog instance"
-              labelId="infodialog-select-label"
-              value={selectedInstance}
-              onChange={handleChange}
-            >
-              {options?.map((o, i) => (
-                <MenuItem key={i} value={`${i}`}>
-                  {o.name}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-          <AddNewButton />
-          <Button onClick={handleDelete} color="error">
-            Delete
-          </Button>
-          <Button
-            onClick={sendOptionsToServer}
-            color="primary"
-            disabled={!pendingChanges}
-          >
-            Save
-          </Button>
-          <InstanceEditor
-            instanceOptions={options[parseInt(selectedInstance)]}
-            handleInstanceOptionsChange={handleInstanceOptionsChange}
-          />
-        </>
-      ) : (
-        <>
-          <Typography variant="caption">No config yet. Add?</Typography>
-          <AddNewButton />
-          <Button
-            onClick={sendOptionsToServer}
-            color="primary"
-            disabled={!pendingChanges}
-          >
-            Save
-          </Button>
-        </>
-      )}
+      <Grid container item xs={12}>
+        {options.length > 0 ? (
+          <>
+            <Grid item xs={12}>
+              <FormControl sx={{ minWidth: 200 }}>
+                <InputLabel id="infodialog-select-label">
+                  InfoDialog instance
+                </InputLabel>
+                <Select
+                  label="InfoDialog instance"
+                  labelId="infodialog-select-label"
+                  value={selectedInstance}
+                  onChange={handleChange}
+                >
+                  {options?.map((o, i) => (
+                    <MenuItem key={i} value={`${i}`}>
+                      {o.name}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </Grid>
+            <Grid item xs={12}>
+              <AddNewButton />
+              <Button onClick={handleDelete} color="error">
+                Delete
+              </Button>
+              <Button
+                onClick={sendOptionsToServer}
+                color="primary"
+                disabled={!pendingChanges}
+              >
+                Save
+              </Button>
+            </Grid>
+            <Grid item xs={12}>
+              <InstanceEditor
+                instanceOptions={options[parseInt(selectedInstance)]}
+                handleInstanceOptionsChange={handleInstanceOptionsChange}
+              />
+            </Grid>
+          </>
+        ) : (
+          <>
+            <Grid item xs={12}>
+              <Typography>No config yet. Add?</Typography>
+            </Grid>
+            <Grid item xs={12}>
+              <AddNewButton />
+              <Button
+                onClick={sendOptionsToServer}
+                color="primary"
+                disabled={!pendingChanges}
+              >
+                Save
+              </Button>
+            </Grid>
+          </>
+        )}
+      </Grid>
       <Dialog open={dialogOpen} onClose={() => setDialogOpen(false)}>
         <DialogTitle>Add new InfoDialog instance</DialogTitle>
         <DialogContent>
