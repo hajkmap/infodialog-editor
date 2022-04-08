@@ -11,7 +11,7 @@ export default function useMapConfig(mapName: string) {
   useEffect(() => {
     const fetchParameters = async () => {
       // Don't fetch anything unless we have value
-      if (mapName.trim().length === 0) return;
+      if (!mapName || mapName.trim().length === 0) return;
 
       // Set initial loading state
       setState({ ...state, loading: true, error: false });

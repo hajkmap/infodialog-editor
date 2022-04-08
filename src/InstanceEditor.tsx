@@ -64,7 +64,6 @@ export default function InstanceEditor({
           <Checkbox
             checked={value}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-              console.log("!!!e.target.checked: ", e.target.checked);
               setValue(e.target.checked);
               (instanceOptions as any)[k] = e.target.checked;
               handleInstanceOptionsChange(instanceOptions);
@@ -78,7 +77,7 @@ export default function InstanceEditor({
   }
 
   function RenderMarkdownEditor(v: string, i: number) {
-    console.log("v: ", v);
+    console.log("RenderMarkdownEditor: ", v);
     const [text, setText] = useState(v);
 
     const handleChange = (newText: string | undefined): void => {
@@ -91,7 +90,6 @@ export default function InstanceEditor({
   }
 
   function RenderOption(option: any, i: number) {
-    console.log(i, option);
     const k: string = option[0];
     const v: string | boolean | {} = option[1];
 
@@ -107,6 +105,7 @@ export default function InstanceEditor({
     // return <Typography key={i}>Not supported: {k}</Typography>;
   }
 
+  console.log("got new instanceOptions: ", instanceOptions);
   return (
     <FormControl sx={{ m: 3 }} component="fieldset" variant="standard">
       {Object.entries(instanceOptions).map((o: any, i: number) =>

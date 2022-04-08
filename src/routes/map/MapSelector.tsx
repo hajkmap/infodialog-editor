@@ -11,9 +11,10 @@ import {
   Typography,
 } from "@mui/material";
 
-import useMapConfig from "./hooks/useMapConfig";
-import InstanceSelector from "./InstanceSelector";
-import { InfoDialogOptions } from "./types/types";
+import useMapConfig from "../../hooks/useMapConfig";
+import InstanceSelector from "../../InstanceSelector";
+import MapEditor from "./MapEditor";
+import { InfoDialogOptions, MapConfig } from "../../types/types";
 
 type Props = {
   maps: string[];
@@ -65,8 +66,8 @@ export default function MapSelector({ maps }: Props) {
       {pendingChanges && (
         <Grid item xs={12}>
           <Typography variant="caption" sx={{ display: "block" }}>
-            There are local changes. Please rembember to click on the save
-            button to send them to the server.
+            There are local changes. Please remember to click on the save button
+            to send them to the server.
           </Typography>
         </Grid>
       )}
@@ -89,8 +90,8 @@ export default function MapSelector({ maps }: Props) {
         </FormControl>
       </Grid>
       <Grid item xs={12}>
-        <InstanceSelector
-          options={infoDialogOptions}
+        <MapEditor
+          options={data}
           mapName={mapName}
           pendingChanges={pendingChanges}
           setPendingChanges={setPendingChanges}

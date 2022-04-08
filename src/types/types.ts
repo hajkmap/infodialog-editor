@@ -5,6 +5,15 @@ export interface MapConfig {
   version: string;
 }
 
+export interface Layers {
+  arcgislayers: Array<{}>;
+  wmslayers: Array<{}>;
+  wmtslayers: Array<{}>;
+  wfslayers: Array<{}>;
+  wfstlayers: Array<{}>;
+  vectorlayers: Array<{}>;
+}
+
 export interface InfoDialogOptions {
   allowDangerousHtml: boolean;
   buttonText: string;
