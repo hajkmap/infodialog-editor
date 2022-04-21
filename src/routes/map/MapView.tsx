@@ -8,6 +8,7 @@ type Props = {
 };
 
 const MapView = ({ maps }: Props) => {
+  console.log("Maps render: ", maps);
   return maps ? (
     <>
       <Box>Maps</Box>

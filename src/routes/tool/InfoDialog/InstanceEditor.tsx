@@ -14,7 +14,7 @@ import {
 } from "@mui/material";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import Typography from "@mui/material/Typography";
-import { InfoDialogOptions } from "./types/types";
+import { InfoDialogOptions } from "../../../types/types";
 
 type Props = {
   instanceOptions: InfoDialogOptions;

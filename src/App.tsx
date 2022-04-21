@@ -87,6 +87,7 @@ const App = () => {
     fetchMaps();
   }, []);
 
+  // Fetch available layers upon load
   useEffect(() => {
     const fetchLayers = async () => {
       try {

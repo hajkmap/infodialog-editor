@@ -12,7 +12,7 @@ import {
 } from "@mui/material";
 
 import useMapConfig from "../../hooks/useMapConfig";
-import InstanceSelector from "../../InstanceSelector";
+import InstanceSelector from "../tool/InfoDialog/InstanceSelector";
 import MapEditor from "./MapEditor";
 import { InfoDialogOptions, MapConfig } from "../../types/types";
 
@@ -31,20 +31,20 @@ export default function MapSelector({ maps }: Props) {
   const [pendingChanges, setPendingChanges] = useState(false);
   const { error, loading, data } = useMapConfig(mapName);
 
-  const [infoDialogOptions, setInfoDialogOptions] = useState<
-    Array<InfoDialogOptions>
-  >([]);
+  // const [infoDialogOptions, setInfoDialogOptions] = useState<
+  //   Array<InfoDialogOptions>
+  // >([]);
 
-  useEffect(() => {
-    // FIXME: Why can't we get rid of "any"?!
-    const tool: any = data?.tools?.find(
-      // FIXME: Why isn't "t: Tool" valid?!
-      (t: any) => t.type === "infodialog"
-    );
+  // useEffect(() => {
+  //   // FIXME: Why can't we get rid of "any"?!
+  //   const tool: any = data?.tools?.find(
+  //     // FIXME: Why isn't "t: Tool" valid?!
+  //     (t: any) => t.type === "infodialog"
+  //   );
 
-    const options: InfoDialogOptions[] = tool?.options || [];
-    setInfoDialogOptions(options);
-  }, [data]);
+  //   const options: InfoDialogOptions[] = tool?.options || [];
+  //   setInfoDialogOptions(options);
+  // }, [data]);
 
   useEffect(() => {
     // Pre-select the first map in the Select component
@@ -90,12 +90,14 @@ export default function MapSelector({ maps }: Props) {
         </FormControl>
       </Grid>
       <Grid item xs={12}>
-        <MapEditor
-          options={data}
-          mapName={mapName}
-          pendingChanges={pendingChanges}
-          setPendingChanges={setPendingChanges}
-        />
+        {data ? (
+          <MapEditor
+            options={data}
+            mapName={mapName}
+            pendingChanges={pendingChanges}
+            setPendingChanges={setPendingChanges}
+          />
+        ) : null}
       </Grid>
     </Grid>
   ) : null;

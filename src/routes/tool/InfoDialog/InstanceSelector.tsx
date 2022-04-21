@@ -21,7 +21,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 
 import { useSnackbar } from "notistack";
 
-import { InfoDialogOptions } from "./types/types";
+import { InfoDialogOptions } from "../../../types/types";
 import InstanceEditor from "./InstanceEditor";
 
 type Props = {
@@ -43,6 +43,7 @@ export default function InstanceSelector({
   const [dialogOpen, setDialogOpen] = useState(false);
   const [instanceName, setInstanceName] = useState("");
 
+  console.log("options: ", options);
   useEffect(() => {
     Array.isArray(options) && setSelectedInstance("0");
   }, [options]);
