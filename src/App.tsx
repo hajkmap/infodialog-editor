@@ -67,44 +67,42 @@ const App = () => {
   const [layers, setLayers] = useState<Layers | any>({});
   const [error, setError] = useState("");
 
-  // Fetch available maps upon load
-  useEffect(() => {
-    const fetchMaps = async () => {
-      try {
-        const response = await fetch(
-          "http://localhost:3002/api/v1/mapconfig/list"
-        );
-        const maps: string[] = await response.json();
-        setMaps(maps);
-      } catch (e) {
-        console.log("error: ", e);
-        if (e instanceof Error) {
-          setError(e.message);
-        }
+  const fetchMaps = async () => {
+    try {
+      const response = await fetch(
+        "http://localhost:3002/api/v1/mapconfig/list"
+      );
+      const maps: string[] = await response.json();
+      setMaps(maps);
+      setError("");
+    } catch (e) {
+      console.log("error: ", e);
+      if (e instanceof Error) {
+        setError(e.message);
       }
-    };
+    }
+  };
 
-    fetchMaps();
-  }, []);
-
-  // Fetch available layers upon load
-  useEffect(() => {
-    const fetchLayers = async () => {
-      try {
-        const response = await fetch(
-          "http://localhost:3002/api/v1/config/layers"
-        );
-        const layers: Layers = await response.json();
-        setLayers(layers);
-      } catch (e) {
-        console.log("error: ", e);
-        if (e instanceof Error) {
-          setError(e.message);
-        }
+  const fetchLayers = async () => {
+    try {
+      const response = await fetch(
+        "http://localhost:3002/api/v1/config/layers"
+      );
+      const layers: Layers = await response.json();
+      setLayers(layers);
+      setError("");
+    } catch (e) {
+      console.log("error: ", e);
+      if (e instanceof Error) {
+        setError(e.message);
       }
-    };
+    }
+  };
 
+  // Fetch available layers and maps upon load
+  useEffect(() => {
     fetchLayers();
+    fetchMaps();
   }, []);
 
   if (
