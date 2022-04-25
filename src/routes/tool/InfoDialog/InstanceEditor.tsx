@@ -26,12 +26,14 @@ export default function InstanceEditor({
   handleInstanceOptionsChange,
 }: Props) {
   if (instanceOptions === undefined) return null;
+  const [data, setData] = useState(instanceOptions);
 
   // When new instance options arrive…
-  // useEffect(() => {
-  //   // …let's set the Editor's text
-  //   setText(instanceOptions.text);
-  // }, [instanceOptions]);
+  useEffect(() => {
+    // …let's set the Editor's text
+    console.log("Setting new instanceOptions: ", instanceOptions);
+    setData(instanceOptions);
+  }, [instanceOptions]);
 
   function RenderInput(k: string, v: string, i: number) {
     const [value, setValue] = useState(v);
@@ -81,12 +83,13 @@ export default function InstanceEditor({
     const [text, setText] = useState(v);
 
     const handleChange = (newText: string | undefined): void => {
-      setText(newText || "");
-      instanceOptions.text = newText || "";
+      setText(newText || ""); // Internal component state
+      setData({ ...data, text: newText || "" }); // External
+      instanceOptions.text = newText || ""; // Even more external… :|
       handleInstanceOptionsChange(instanceOptions);
     };
 
-    return <MDEditor value={text} onChange={handleChange} key={i} />;
+    return <MDEditor value={data.text} onChange={handleChange} key={i} />;
   }
 
   function RenderOption(option: any, i: number) {
