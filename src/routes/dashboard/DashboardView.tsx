@@ -1,9 +1,10 @@
+import { Layers, Maps } from "../../types/types";
+
 import * as React from "react";
 import { Box } from "@mui/system";
-import { Layers } from "../../types/types";
 
 type Props = {
-  maps: string[];
+  maps: Maps;
   layers: Layers;
 };
 

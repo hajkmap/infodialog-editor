@@ -1,20 +1,16 @@
+import { InfoDialogOptions } from "../../../types/types";
+
 import * as React from "react";
 import { useEffect, useState } from "react";
 
 import MDEditor from "@uiw/react-md-editor";
 
 import {
-  Box,
-  Button,
   Checkbox,
   FormControl,
   FormControlLabel,
-  MenuItem,
   TextField,
 } from "@mui/material";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
-import Typography from "@mui/material/Typography";
-import { InfoDialogOptions } from "../../../types/types";
 
 type Props = {
   instanceOptions: InfoDialogOptions;

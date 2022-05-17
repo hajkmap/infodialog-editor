@@ -3,26 +3,23 @@ import { useEffect, useState } from "react";
 
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import {
-  Button,
-  CircularProgress,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Divider,
   Grid,
   FormControl,
   InputLabel,
   MenuItem,
+  TextField,
   Typography,
-  Divider,
 } from "@mui/material";
-
-import TextField from "@mui/material/TextField";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
-import DialogTitle from "@mui/material/DialogTitle";
 
 import { useSnackbar } from "notistack";
 
-import { InfoDialogOptions, MapConfig } from "../../types/types";
+import { MapConfig } from "../../types/types";
 import InstanceSelector from "../tool/InfoDialog/InstanceSelector";
 
 type Props = {

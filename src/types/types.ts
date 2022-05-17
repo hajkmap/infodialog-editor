@@ -14,6 +14,8 @@ export interface Layers {
   vectorlayers: Array<{}>;
 }
 
+export type Maps = string[];
+
 export interface InfoDialogOptions {
   allowDangerousHtml: boolean;
   buttonText: string;

@@ -1,7 +1,5 @@
-import { Box } from "@mui/system";
-import { DataGrid } from "@mui/x-data-grid";
 import * as React from "react";
-import MapSelector from "../map/MapSelector";
+import { Box } from "@mui/system";
 
 type Props = {
   maps: string[];

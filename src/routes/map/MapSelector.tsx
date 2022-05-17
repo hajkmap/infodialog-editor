@@ -1,7 +1,8 @@
+import { Maps } from "../../types/types";
+
 import * as React from "react";
 import { useEffect, useState } from "react";
 
-import Select, { SelectChangeEvent } from "@mui/material/Select";
 import {
   CircularProgress,
   FormControl,
@@ -10,41 +11,19 @@ import {
   MenuItem,
   Typography,
 } from "@mui/material";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
 
 import useMapConfig from "../../hooks/useMapConfig";
-import InstanceSelector from "../tool/InfoDialog/InstanceSelector";
 import MapEditor from "./MapEditor";
-import { InfoDialogOptions, MapConfig } from "../../types/types";
 
 type Props = {
-  maps: string[];
+  maps: Maps;
 };
-
-interface Tool {
-  index: number;
-  options: [];
-  type: string;
-}
 
 export default function MapSelector({ maps }: Props) {
   const [mapName, setMapName] = useState("");
   const [pendingChanges, setPendingChanges] = useState(false);
   const { error, loading, data } = useMapConfig(mapName);
-
-  // const [infoDialogOptions, setInfoDialogOptions] = useState<
-  //   Array<InfoDialogOptions>
-  // >([]);
-
-  // useEffect(() => {
-  //   // FIXME: Why can't we get rid of "any"?!
-  //   const tool: any = data?.tools?.find(
-  //     // FIXME: Why isn't "t: Tool" valid?!
-  //     (t: any) => t.type === "infodialog"
-  //   );
-
-  //   const options: InfoDialogOptions[] = tool?.options || [];
-  //   setInfoDialogOptions(options);
-  // }, [data]);
 
   useEffect(() => {
     // Pre-select the first map in the Select component

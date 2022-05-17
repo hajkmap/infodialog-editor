@@ -1,53 +1,36 @@
+import { Layers, Maps } from "./types/types";
 import * as React from "react";
-import {
-  Link as RouterLink,
-  Navigate,
-  Outlet,
-  useRoutes,
-  useLocation,
-  matchPath,
-  Routes,
-  Route,
-} from "react-router-dom";
+import { useEffect, useState } from "react";
+
+import { Link as RouterLink, Navigate, Routes, Route } from "react-router-dom";
+
 import {
   AppBar,
+  Badge,
+  Box,
+  Container,
   Divider,
   Drawer,
   IconButton,
   LinearProgress,
   Link as MUILink,
   List,
-  Paper,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
   Toolbar,
+  Typography,
 } from "@mui/material";
-import Tabs from "@mui/material/Tabs";
-import Tab from "@mui/material/Tab";
-import { useEffect, useState } from "react";
-import Container from "@mui/material/Container";
-import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
-import Box from "@mui/material/Box";
+
 import MenuIcon from "@mui/icons-material/Menu";
-import Badge from "@mui/material/Badge";
 import NotificationsIcon from "@mui/icons-material/Notifications";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
-import ListSubheader from "@mui/material/ListSubheader";
 import DashboardIcon from "@mui/icons-material/Dashboard";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import PeopleIcon from "@mui/icons-material/People";
-import BarChartIcon from "@mui/icons-material/BarChart";
 import LayersIcon from "@mui/icons-material/Layers";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ConstructionIcon from "@mui/icons-material/Construction";
 import MapIcon from "@mui/icons-material/Map";
 import ContentPasteSearchIcon from "@mui/icons-material/ContentPasteSearch";
 import EditIcon from "@mui/icons-material/Edit";
-import AssignmentIcon from "@mui/icons-material/Assignment";
-
-import MapSelector from "./routes/map/MapSelector";
-import { Grid } from "@mui/material";
 
 import NotFound404 from "./routes/error/PageNotFoundView";
 import NoConnectionToServerView from "./routes/error/NoConnectionToServerView";
@@ -60,11 +43,16 @@ import LayerListView from "./routes/layer/LayerListView";
 import LayerAddView from "./routes/layer/LayerAddView";
 import LayerDetailView from "./routes/layer/LayerDetailView";
 
-import { Layers } from "./types/types";
-
 const App = () => {
-  const [maps, setMaps] = useState<string[]>([]);
-  const [layers, setLayers] = useState<Layers | any>({});
+  const [maps, setMaps] = useState<Maps>([]);
+  const [layers, setLayers] = useState<Layers>({
+    arcgislayers: [],
+    wmslayers: [],
+    wmtslayers: [],
+    wfslayers: [],
+    wfstlayers: [],
+    vectorlayers: [],
+  });
   const [error, setError] = useState("");
 
   const fetchMaps = async () => {
