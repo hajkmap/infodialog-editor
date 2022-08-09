@@ -1,7 +1,13 @@
 export interface MapConfig {
-  map: {};
+  map: {
+    title: string;
+  };
   projections: Array<{}>;
-  tools: Array<{}>;
+  tools: Array<{
+    index: number;
+    type: string;
+    options: {};
+  }>;
   version: string;
 }
 

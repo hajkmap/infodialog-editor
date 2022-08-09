@@ -35,7 +35,11 @@ import EditIcon from "@mui/icons-material/Edit";
 import NotFound404 from "./routes/error/PageNotFoundView";
 import NoConnectionToServerView from "./routes/error/NoConnectionToServerView";
 import DashboardView from "./routes/dashboard/DashboardView";
+
 import MapView from "./routes/map/MapView";
+import MapDetailView from "./routes/map/MapDetailView";
+import MapToolView from "./routes/map/MapToolView";
+
 import ToolView from "./routes/tool/ToolView";
 
 import LayerLayout from "./routes/layer/LayerLayout";
@@ -198,15 +202,18 @@ const App = () => {
                   path="/dashboard"
                   element={<DashboardView maps={maps} layers={layers} />}
                 />
+
                 <Route path="/map" element={<MapView maps={maps} />} />
-                <Route path="/tool" element={<ToolView maps={maps} />} />(
+                <Route path="/map/:map" element={<MapDetailView />} />
+                <Route path="/map/:map/:tool" element={<MapToolView />} />
+
+                <Route path="/tool" element={<ToolView maps={maps} />} />
                 <Route path="/layer" element={<LayerLayout layers={layers} />}>
                   <Route path="list" element={<LayerListView />} />
                   <Route path="add" element={<LayerAddView />} />
                   <Route path=":id" element={<LayerDetailView />} />
                   <Route path="*" element={<NotFound404 />} />
                 </Route>
-                )
               </Routes>
             )}
             <Copyright />
