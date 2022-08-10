@@ -20,7 +20,7 @@ export interface Layers {
   vectorlayers: Array<{}>;
 }
 
-export type Maps = string[];
+export type Maps = Array<string>;
 
 export interface InfoDialogOptions {
   allowDangerousHtml: boolean;

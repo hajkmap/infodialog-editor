@@ -1,7 +1,8 @@
 import { MapConfig } from "../../types/types";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
+
 import { Link, useParams } from "react-router-dom";
-import { List, ListItem, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
 
 const MapToolView: React.FC = (): JSX.Element => {
   const params = useParams();

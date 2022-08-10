@@ -1,5 +1,7 @@
 import * as React from "react";
 import ReactDOM from "react-dom/client";
+import { Provider } from "react-redux";
+import { store } from "./app/store";
 import { BrowserRouter } from "react-router-dom";
 import CssBaseline from "@mui/material/CssBaseline";
 import { ThemeProvider } from "@mui/material/styles";
@@ -14,7 +16,9 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
     <SnackbarProvider maxSnack={3}>
       <CssBaseline />
       <BrowserRouter>
-        <App />
+        <Provider store={store}>
+          <App />
+        </Provider>
       </BrowserRouter>
     </SnackbarProvider>
   </ThemeProvider>

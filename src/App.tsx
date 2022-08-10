@@ -1,6 +1,9 @@
-import { Layers, Maps } from "./types/types";
 import * as React from "react";
-import { useEffect, useState } from "react";
+
+import {
+  useFetchMapsQuery,
+  useFetchLayersQuery,
+} from "./features/maps/maps-api-slice";
 
 import { Link as RouterLink, Navigate, Routes, Route } from "react-router-dom";
 
@@ -8,6 +11,7 @@ import {
   AppBar,
   Badge,
   Box,
+  Button,
   Container,
   Divider,
   Drawer,
@@ -18,6 +22,8 @@ import {
   ListItemButton,
   ListItemIcon,
   ListItemText,
+  MenuItem,
+  Select,
   Toolbar,
   Typography,
 } from "@mui/material";
@@ -42,65 +48,36 @@ import MapToolView from "./routes/map/MapToolView";
 
 import ToolView from "./routes/tool/ToolView";
 
+import DemoView from "./routes/demo/DemoView";
+
 import LayerLayout from "./routes/layer/LayerLayout";
 import LayerListView from "./routes/layer/LayerListView";
 import LayerAddView from "./routes/layer/LayerAddView";
 import LayerDetailView from "./routes/layer/LayerDetailView";
 
 const App = () => {
-  const [maps, setMaps] = useState<Maps>([]);
-  const [layers, setLayers] = useState<Layers>({
-    arcgislayers: [],
-    wmslayers: [],
-    wmtslayers: [],
-    wfslayers: [],
-    wfstlayers: [],
-    vectorlayers: [],
-  });
-  const [error, setError] = useState("");
+  const {
+    data: maps = [],
+    error,
+    isUninitialized, // Query has not started yet.
+    isLoading, // Query is currently loading for the first time. No data yet.
+    isFetching, // Query is currently fetching, but might have data from an earlier request.
+    isSuccess, // Query has data from a successful load.
+    isError, // Query is currently in an "error" state.
+  } = useFetchMapsQuery();
 
-  const fetchMaps = async () => {
-    try {
-      const response = await fetch(
-        "http://localhost:3002/api/v1/mapconfig/list"
-      );
-      const maps: string[] = await response.json();
-      setMaps(maps);
-      setError("");
-    } catch (e) {
-      console.log("error: ", e);
-      if (e instanceof Error) {
-        setError(e.message);
-      }
-    }
-  };
+  const {
+    data: layers = {
+      arcgislayers: [],
+      wmslayers: [],
+      wmtslayers: [],
+      wfslayers: [],
+      wfstlayers: [],
+      vectorlayers: [],
+    },
+  } = useFetchLayersQuery();
 
-  const fetchLayers = async () => {
-    try {
-      const response = await fetch(
-        "http://localhost:3002/api/v1/config/layers"
-      );
-      const layers: Layers = await response.json();
-      setLayers(layers);
-      setError("");
-    } catch (e) {
-      console.log("error: ", e);
-      if (e instanceof Error) {
-        setError(e.message);
-      }
-    }
-  };
-
-  // Fetch available layers and maps upon load
-  useEffect(() => {
-    fetchLayers();
-    fetchMaps();
-  }, []);
-
-  if (
-    error.length === 0 &&
-    (maps.length === 0 || Object.keys(layers).length === 0)
-  ) {
+  if (isLoading) {
     return <LinearProgress />;
   } else
     return (
@@ -178,6 +155,12 @@ const App = () => {
               </ListItemIcon>
               <ListItemText primary="Edit sources" />
             </ListItemButton>
+            <ListItemButton component={RouterLink} to="/demo">
+              <ListItemIcon>
+                <EditIcon />
+              </ListItemIcon>
+              <ListItemText primary="Redux Demo" />
+            </ListItemButton>
           </List>
         </Drawer>
 
@@ -192,9 +175,9 @@ const App = () => {
         >
           <Toolbar />
           <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-            {error.length !== 0 && <NoConnectionToServerView />}
+            {isError && <NoConnectionToServerView />}
 
-            {error.length === 0 && maps.length && Object.keys(layers).length && (
+            {isSuccess && maps.length && Object.keys(layers).length && (
               <Routes>
                 <Route path="*" element={<NotFound404 />} />
                 <Route path="/" element={<Navigate to="/dashboard" />} />
@@ -203,7 +186,7 @@ const App = () => {
                   element={<DashboardView maps={maps} layers={layers} />}
                 />
 
-                <Route path="/map" element={<MapView maps={maps} />} />
+                <Route path="/map" element={<MapView />} />
                 <Route path="/map/:map" element={<MapDetailView />} />
                 <Route path="/map/:map/:tool" element={<MapToolView />} />
 
@@ -214,27 +197,23 @@ const App = () => {
                   <Route path=":id" element={<LayerDetailView />} />
                   <Route path="*" element={<NotFound404 />} />
                 </Route>
+                <Route path="/demo" element={<DemoView />} />
               </Routes>
             )}
-            <Copyright />
+
+            <Typography variant="body2" color="text.secondary" align="center">
+              {"Copyright © "}
+              <MUILink color="inherit" href="https://hajkmap.github.com/">
+                Hajk Admin UI
+              </MUILink>
+              {" 2021-"}
+              {new Date().getFullYear()}
+              {"."}
+            </Typography>
           </Container>
         </Box>
       </Box>
     );
-};
-
-const Copyright = () => {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center">
-      {"Copyright © "}
-      <MUILink color="inherit" href="https://hajkmap.github.com/">
-        Hajk Admin UI
-      </MUILink>
-      {" 2021-"}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  );
 };
 
 export default App;

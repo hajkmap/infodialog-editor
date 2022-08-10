@@ -1,38 +1,30 @@
 import { MapConfig } from "../../types/types";
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { List, ListItem, Typography } from "@mui/material";
+
+import { useFetchMapConfigQuery } from "../../features/maps/maps-api-slice";
+
+import { LinearProgress, List, ListItem, Typography } from "@mui/material";
 
 const MapDetailView: React.FC = (): JSX.Element => {
   const params = useParams();
 
-  const [mapConfig, setMapConfig] = useState<MapConfig | null>(null);
+  const {
+    data: mapConfig,
+    error,
+    isUninitialized, // Query has not started yet.
+    isLoading, // Query is currently loading for the first time. No data yet.
+    isFetching, // Query is currently fetching, but might have data from an earlier request.
+    isSuccess, // Query has data from a successful load.
+    isError, // Query is currently in an "error" state.
+  } = useFetchMapConfigQuery(params.map);
 
-  const fetchMapConfig = async () => {
-    try {
-      const response = await fetch(
-        `http://localhost:3002/api/v1/mapconfig/${params.map}`
-      );
-      const config: MapConfig = await response.json();
-      console.log("config: ", config);
-      setMapConfig(config);
-      // setError("");
-    } catch (e) {
-      console.log("error: ", e);
-      if (e instanceof Error) {
-        // setError(e.message);
-      }
-    }
-  };
-
-  useEffect(() => {
-    fetchMapConfig();
-  }, []);
-
+  console.log("mapConfig: ", mapConfig);
   return (
     <>
       <Typography variant="h3">{mapConfig?.map.title}</Typography>
       <Typography variant="subtitle1">{params.map}</Typography>
+      {(isFetching || isLoading) && <LinearProgress />}
       {Array.isArray(mapConfig?.tools) && (
         <List>
           {mapConfig?.tools.map((t) => (
