@@ -1,12 +1,11 @@
-import { MapConfig } from "../../types/types";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Link, useParams } from "react-router-dom";
 
 import { useFetchMapConfigQuery } from "../../features/maps/maps-api-slice";
 
 import { LinearProgress, List, ListItem, Typography } from "@mui/material";
 
-const MapDetailView: React.FC = (): JSX.Element => {
+const MapDetailView = () => {
   const params = useParams();
 
   const {
@@ -19,7 +18,6 @@ const MapDetailView: React.FC = (): JSX.Element => {
     isError, // Query is currently in an "error" state.
   } = useFetchMapConfigQuery(params.map);
 
-  console.log("mapConfig: ", mapConfig);
   return (
     <>
       <Typography variant="h3">{mapConfig?.map.title}</Typography>

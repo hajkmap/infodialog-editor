@@ -9,7 +9,6 @@ type Props = {
 };
 
 const DashboardView = ({ maps, layers }: Props) => {
-  // console.log("Dashboard render: ", maps, layers);
   return (
     <>
       <Box>Dashboard</Box>

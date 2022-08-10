@@ -19,7 +19,6 @@ const MapView = () => {
     isError, // Query is currently in an "error" state.
   } = useFetchMapsQuery();
 
-  console.log("Maps render: ", maps);
   return maps ? (
     <>
       <Typography variant="h4">{maps?.length} map configs available</Typography>
@@ -30,7 +29,7 @@ const MapView = () => {
           </ListItem>
         ))}
       </List>
-      {/* <MapSelector maps={maps} /> */}
+      <MapSelector maps={maps} />
     </>
   ) : null;
 };
