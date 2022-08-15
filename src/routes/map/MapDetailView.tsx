@@ -1,7 +1,7 @@
 import React from "react";
 import { Link, useParams } from "react-router-dom";
 
-import { useFetchMapConfigQuery } from "../../features/maps/maps-api-slice";
+import { useFetchMapConfigQuery } from "../../features/maps/mapsApiSlice";
 
 import { LinearProgress, List, ListItem, Typography } from "@mui/material";
 

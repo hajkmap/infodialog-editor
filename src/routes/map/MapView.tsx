@@ -1,11 +1,8 @@
-import { Maps } from "../../types/types";
-
 import * as React from "react";
 import { Link } from "react-router-dom";
 
-import { useFetchMapsQuery } from "../../features/maps/maps-api-slice";
+import { useFetchMapsQuery } from "../../features/maps/mapsApiSlice";
 
-import MapSelector from "./MapSelector";
 import { List, ListItem, Typography } from "@mui/material";
 
 const MapView = () => {
@@ -29,7 +26,6 @@ const MapView = () => {
           </ListItem>
         ))}
       </List>
-      <MapSelector maps={maps} />
     </>
   ) : null;
 };

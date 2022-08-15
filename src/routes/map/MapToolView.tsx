@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { useFetchMapConfigQuery } from "../../features/maps/maps-api-slice";
+import { useFetchMapConfigQuery } from "../../features/maps/mapsApiSlice";
 
 import { Link, useParams } from "react-router-dom";
 import { Typography } from "@mui/material";
@@ -23,9 +23,8 @@ const MapToolView = () => {
   } = useFetchMapConfigQuery(params.map);
 
   const toolConfig = mapConfig?.tools.find((t) => t.type === params.tool);
-  console.log("toolConfig: ", toolConfig);
 
-  return (
+  return toolConfig ? (
     <>
       <Typography variant="h3">
         <Link to={`/map/${params.map}`}>{params.map}</Link>
@@ -41,7 +40,7 @@ const MapToolView = () => {
         />
       )}
     </>
-  );
+  ) : null;
 };
 
 export default MapToolView;

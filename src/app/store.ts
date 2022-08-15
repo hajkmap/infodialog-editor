@@ -1,8 +1,8 @@
 import { configureStore } from "@reduxjs/toolkit";
 
-import counterReducer from "../features/counter/counter-slice";
-import { apiSlice } from "../features/dogs/dogs-api-slice";
-import { mapsApiSlice } from "../features/maps/maps-api-slice";
+import counterReducer from "../features/counter/counterSlice";
+import { apiSlice } from "../features/dogs/dogsApiSlice";
+import { mapsApiSlice } from "../features/maps/mapsApiSlice";
 
 export const store = configureStore({
   reducer: {

@@ -3,7 +3,7 @@ import * as React from "react";
 import {
   useFetchMapsQuery,
   useFetchLayersQuery,
-} from "./features/maps/maps-api-slice";
+} from "./features/maps/mapsApiSlice";
 
 import { Link as RouterLink, Navigate, Routes, Route } from "react-router-dom";
 
@@ -77,7 +77,7 @@ const App = () => {
     },
   } = useFetchLayersQuery();
 
-  if (isLoading) {
+  if (isFetching) {
     return <LinearProgress />;
   } else
     return (

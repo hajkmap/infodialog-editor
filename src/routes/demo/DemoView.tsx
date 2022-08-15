@@ -1,9 +1,8 @@
 import * as React from "react";
-import { Box } from "@mui/system";
 
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { amountAdded, incremented } from "../../features/counter/counter-slice";
-import { useFetchBreedsQuery } from "../../features/dogs/dogs-api-slice";
+import { amountAdded, incremented } from "../../features/counter/counterSlice";
+import { useFetchBreedsQuery } from "../../features/dogs/dogsApiSlice";
 import {
   Button,
   Divider,

@@ -7,6 +7,7 @@ export default function useMapConfig(mapName: string) {
     loading: false as boolean,
     data: {} as MapConfig | null,
   });
+  console.warn("Obsolete code, this message shouldn't show!");
 
   useEffect(() => {
     const fetchParameters = async () => {
